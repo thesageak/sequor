@@ -14,7 +14,7 @@ export default function SearchResults() {
 
         async function fetchResults() {
             const response = await axios.get(`http://localhost:3000/api/manga?q=${encodeURIComponent(query)}`);
-            console.log(query, response.data)
+            console.log(query, response.data);
             setResults(response.data);
         }
         fetchResults();

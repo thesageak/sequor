@@ -9,10 +9,12 @@ export default function GlobalLayout() {
     return (
         <div className="min-h-screen">
             <Navbar />
-            <Sidebar isOpen={isSidebarOpen} setIsOpen={setIsSidebarOpen} />
-            <main className={`flex-1 duration-300 ${isSidebarOpen ? "ml-70" : "ml-18"}`}>
-                <Outlet />
-            </main>
+            <div className="flex">
+                <Sidebar isOpen={isSidebarOpen} setIsOpen={setIsSidebarOpen} />
+                <main className="flex-1 relative">
+                    <Outlet />
+                </main>
+            </div>
         </div>
     )
 }

@@ -11,7 +11,7 @@ function App() {
       <Route path='/' element={<GlobalLayout/>} >
         <Route index element={<Home />} />
         <Route path='search' element={<SearchResults />} />
-        <Route path='manga' element={<MediaDetailsLayout />} />
+        <Route path='manga/:id' element={<MediaDetailsLayout/>}/>
       </Route>
     </Routes>
   )
