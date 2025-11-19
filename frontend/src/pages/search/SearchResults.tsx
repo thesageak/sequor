@@ -22,7 +22,7 @@ export default function SearchResults() {
     
     return(
         <>
-            <div className="flex flex-row flex-wrap">
+            <div className="flex flex-row flex-wrap pt-14 pl-5">
                 {results.map(result => (
                     <div 
                         key={result.id}>

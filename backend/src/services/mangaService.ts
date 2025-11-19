@@ -14,6 +14,10 @@ export interface Manga {
 }
 
 export const parseMangaData = (data: any): Manga => {
+    const combinedGenres = [
+        ...(data.genres ? data.genres.map((genre: any) => genre.name) : []),
+        ...(data.themes ? data.themes.map((theme: any) => theme.name) : [])
+    ]
     return {
         id: data.mal_id,
         titles: data.title,
@@ -22,7 +26,7 @@ export const parseMangaData = (data: any): Manga => {
         chapters: data.chapters,
         image_url: data.images.jpg.image_url,
         synopsis: data.synopsis,
-        genres: data.genres ? data.genres.map((genre: any) => genre.name) : []
+        genres: combinedGenres
     }
 }
 

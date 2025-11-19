@@ -12,7 +12,7 @@ export default function Sidebar({ isOpen, setIsOpen }: SidebarProps) {
     return (
         <aside
             className={`
-                    relative flex flex-col h-screen
+                    sticky top-14 flex flex-col h-[calc(100vh-3.5rem)] z-50
                     border-r-3 border-white bg-seqBlack 
                     transition-all duration-200 ${isOpen ? "w-64" : "w-12"}`}
         >
@@ -20,7 +20,7 @@ export default function Sidebar({ isOpen, setIsOpen }: SidebarProps) {
                 className="
                         absolute right-0 w-auto
                         border-3 rounded-full border-white bg-seqBlack
-                        translate-x-1/2 translate-y-10 z-40"
+                        translate-x-1/2 translate-y-10"
                 onClick={() => setIsOpen(!isOpen)}
             >
                 Toggle
