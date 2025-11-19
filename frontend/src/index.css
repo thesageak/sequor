@@ -1,1 +1,12 @@
 @import "tailwindcss";
+
+@theme {
+    --color-seqBlack : #090909;
+    --color-seqGray: #3E3E3E;
+    --color-seqBlue: #48ACF0;
+}
+
+body {
+    background-color: #090909;
+    color: white;
+}

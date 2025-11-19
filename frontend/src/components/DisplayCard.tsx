@@ -5,7 +5,7 @@ interface DisplayProps {
 
 export default function DisplayCard(props : DisplayProps) {
     return(
-        <div className="m-5">
+        <div className="m-3">
             <div className="flex flex-col w-44 h-69 rounded-lg overflow-hidden">
                 <img
                     src={props.image_url}

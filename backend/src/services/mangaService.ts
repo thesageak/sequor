@@ -41,8 +41,18 @@ export const searchMangaByTitle = async (title: string): Promise<Manga[]> => {
         const response = await axios.get(`${JIKAN_API_BASE_URL}/manga`, {
             params: { q: title }
         });
+        const mangas: Manga[] = response.data.data.map((item: any) => parseMangaData(item))
+        const uniqueMangas: Manga[] = []
+        const seenIds = new Set<number>();
 
-        return response.data.data.map((item: any) => parseMangaData(item));
+        for (const manga of mangas) {
+            if (!seenIds.has(manga.id)) {
+                seenIds.add(manga.id);
+                uniqueMangas.push(manga);
+            }
+        }
+        
+        return uniqueMangas;
     } catch (error) {
         console.log('Error searching manga by title:', error);
         return [];

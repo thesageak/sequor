@@ -6,14 +6,15 @@ import DisplayCard from '../../components/DisplayCard.tsx'
 
 export default function SearchResults() {
     const [searchParams] = useSearchParams();
-    const query = searchParams.get("q");
+    const query = searchParams.get("q") ?? "";
     const [results, setResults] = useState<MangaResult[]>([]);
 
     useEffect(() => {
-        if (!query) return;
+        if (!query == null) return;
 
         async function fetchResults() {
-            const response = await axios.get(`http://localhost:3000/api/manga?q=${query}`);
+            const response = await axios.get(`http://localhost:3000/api/manga?q=${encodeURIComponent(query)}`);
+            console.log(query, response.data)
             setResults(response.data);
         }
         fetchResults();
@@ -21,13 +22,12 @@ export default function SearchResults() {
     
     return(
         <>
-            <h1>Search Results for "{query}"</h1>
             <div className="flex flex-row flex-wrap">
                 {results.map(result => (
                     <div 
                         key={result.id}>
                         <DisplayCard
-                            title={result.title || result.title_english || result.title_japanese}
+                            title={result.title || result.title_english || result.title_japanese || "Unknown Title"}
                             image_url={result.image_url!}
                          />
                     </div>

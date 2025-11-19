@@ -1,25 +1,30 @@
 import { useState } from "react";
+import { Link } from "react-router-dom";
 
-export default function Sidebar() {
+interface SidebarProps {
+    isOpen: boolean;
+    setIsOpen: (value: boolean) => void;
+}
+
+export default function Sidebar({isOpen, setIsOpen} : SidebarProps) {
     const [isMediaOpen, setIsMediaOpen] = useState(false);
-    const [isOpen, setIsOpen] = useState(false);
 
     return (
-        <>
+        <div className="fixed left-0">
             <aside 
                 className={`
                     relative flex flex-col min-h-screen 
-                    border-r-3 border-black bg-gray-800 
+                    border-r-3 border-white bg-seqBlack 
                     transition-all duration-200 ${isOpen ? "w-64" : "w-12"}`}
             >
                 <button 
                     className="
-                        absolute right-0 w-12 
-                        border-3 rounded-full border-black bg-gray-900 
+                        absolute right-0 w-auto 
+                        border-3 rounded-full border-white bg-seqBlack
                         translate-x-1/2 translate-y-10"
                     onClick={() => setIsOpen(!isOpen)}
                 >
-                    Toggle
+                    toggle
                 </button>
 
                 <ul className={`duration-200
@@ -44,12 +49,16 @@ export default function Sidebar() {
                             className={`${isMediaOpen ? 'max-h-60': 'max-h-0'}`}
                         >
                             <ul>
-                                <li className={`${isMediaOpen ? "block" : "hidden"}`}>
-                                    Anime
-                                </li>
-                                <li className={`${isMediaOpen ? "block" : "hidden"}`}>
-                                    Manga
-                                </li>
+                                <Link to="/anime">
+                                    <li className={`${isMediaOpen ? "block" : "hidden"}`}>
+                                        Anime
+                                    </li>
+                                </Link>
+                                <Link to="/manga">
+                                    <li className={`${isMediaOpen ? "block" : "hidden"}`}>
+                                        Manga
+                                    </li>
+                                </Link>
                             </ul>
                         </div>
                     </li>
@@ -61,6 +70,6 @@ export default function Sidebar() {
 
                 </ul>
             </aside>
-        </>
+        </div>
     )
 }
