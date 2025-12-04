@@ -6,6 +6,7 @@ import ContentList from '../components/ContentList.tsx'
 
 // Chainsaw Man Manga ID: 116778
 // JoJo Part 7: 1706
+// Frieren: 126287
 
 export default function MediaDetailsLayout() {
     const { id } = useParams();
@@ -29,7 +30,7 @@ export default function MediaDetailsLayout() {
 
     return (
         <div className="min-h-screen">
-            <div className="relative w-full h-95 mx-auto bg-gray-400">
+            <div className="absolute w-full h-95 mx-auto bg-gray-400 -z-10 top-0">
                 <img
                     src={results?.image_url}
                     className="flex w-full h-full object-cover object-[50%_15%]"
@@ -37,19 +38,17 @@ export default function MediaDetailsLayout() {
                 <div className="absolute inset-0 backdrop-blur-sm" />
             </div>
 
-            <div className="flex absolute mx-auto inset-0 max-w-7xl m-25 sm:px-25">
-                <div className="flex justify-center top-25">
+            <div className="flex-col mx-auto max-w-7xl m-25 sm:px-25">
+                <div className="flex">
                     <img
                         src={results?.image_url}
-                        className="w-50 h-76"
+                        className="w-60 h-86"
                     />
-
-                    <div className="flex flex-col px-5">
-                        <h1 className="text-white font-bold text-[2.5rem] text-shadow-lg">
+                    <div className="flex flex-col px-8">
+                        <h1 className="text-white font-bold text-[clamp(1.5rem,2vw,3rem)] text-shadow-lg">
                             {results?.title || results?.title_english || results?.title_japanese}
                         </h1>
-
-                        <h2 className="flex flex-wrap gap-4">
+                        <h2 className="flex flex-wrap gap-3 mt-2">
                             {results?.genres?.map((genre: string) => (
                                 <div
                                     key={genre}
@@ -59,24 +58,28 @@ export default function MediaDetailsLayout() {
                                 </div>
                             ))}
                         </h2>
+                        <div className="absolute translate-y-74">
+                            <button className="flex justify-center items-center text-[1.3rem] bg-seqGray w-45 h-1 p-6 rounded-lg">
+                                Track
+                            </button>
+                        </div>
                     </div>
                 </div>
-            </div>
 
-            <div className="max-w-7xl mx-auto sm:px-25">
-                <p className="flex-1 mt-20">
-                    {results?.synopsis}
-                </p>
-                <h2 className="flex-1 text-[3rem] font-bold">
-                    Chapters
-                </h2>
-                {
-                    Array.from({ length: results?.chapters || 0 }, (_, i) => i + 1).reverse().map((chapter) => (
-                        <ContentList num={chapter} />
-                    ))
-                }
+                <div>
+                    <p className="flex-1 mt-8 mb-4">
+                        {results?.synopsis}
+                    </p>
+                    <h2 className="flex-1 text-[3rem] font-bold">
+                        Chapters
+                    </h2>
+                    {
+                        Array.from({ length: results?.chapters || 1 }, (_, i) => i + 1).reverse().map((chapter) => (
+                            <ContentList num={chapter} />
+                        ))
+                    }
+                </div>
             </div>
-
         </div>
     )
 }

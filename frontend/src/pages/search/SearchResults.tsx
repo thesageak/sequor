@@ -26,10 +26,12 @@ export default function SearchResults() {
                 {results.map(result => (
                     <div 
                         key={result.id}>
-                        <DisplayCard
-                            title={result.title || result.title_english || result.title_japanese || "Unknown Title"}
-                            image_url={result.image_url!}
-                         />
+                        <a href={`manga/${result.id}`}>
+                            <DisplayCard
+                                title={result.title || result.title_english || result.title_japanese || "Unknown Title"}
+                                image_url={result.image_url!}
+                            />
+                        </a>
                     </div>
                 ))}
             </div>

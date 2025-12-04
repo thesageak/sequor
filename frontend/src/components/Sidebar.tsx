@@ -14,7 +14,8 @@ export default function Sidebar({ isOpen, setIsOpen }: SidebarProps) {
             className={`
                     sticky top-14 flex flex-col h-[calc(100vh-3.5rem)] z-50
                     border-r-3 border-white bg-seqBlack 
-                    transition-all duration-200 ${isOpen ? "w-64" : "w-12"}`}
+                    transition-all duration-200 ${isOpen ? "w-64" : "w-12"}
+                    `}
         >
             <button
                 className="
@@ -28,7 +29,9 @@ export default function Sidebar({ isOpen, setIsOpen }: SidebarProps) {
 
             <ul className={`duration-200
                     ${isMediaOpen ? "w-64" : "w-12"} 
-                    ${isOpen ? "opacity-100" : "opacity-0 -translate-x-10 pointer-events-none"}`}>
+                    ${isOpen ? "opacity-100" : "opacity-0 -translate-x-10 pointer-events-none"}
+                    mx-5 text-[1.2rem]
+                    `}>
 
                 {/*Home*/}
                 <li className="text-white">
@@ -47,7 +50,7 @@ export default function Sidebar({ isOpen, setIsOpen }: SidebarProps) {
                     <div
                         className={`${isMediaOpen ? 'max-h-60' : 'max-h-0'}`}
                     >
-                        <ul>
+                        <ul className="mx-5">
                             <Link to="/anime">
                                 <li className={`${isMediaOpen ? "block" : "hidden"}`}>
                                     Anime
