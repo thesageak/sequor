@@ -51,11 +51,11 @@ export default function Sidebar({ isOpen, setIsOpen }: SidebarProps) {
                         className={`${isMediaOpen ? 'max-h-60' : 'max-h-0'}`}
                     >
                         <ul className="mx-5">
-                            <Link to="/anime">
+                            {/* <Link to="/anime">
                                 <li className={`${isMediaOpen ? "block" : "hidden"}`}>
                                     Anime
                                 </li>
-                            </Link>
+                            </Link> */}
                             <Link to="/manga">
                                 <li className={`${isMediaOpen ? "block" : "hidden"}`}>
                                     Manga

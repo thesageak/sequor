@@ -3,7 +3,7 @@ import { getMangaById, searchManga } from '../controllers/mangaController';
 
 const router = express.Router();
 
-router.get('/manga/:id', getMangaById);
-router.get('/manga', searchManga);
+router.get('/:id', getMangaById);
+router.get('/', searchManga);
 
 export default router;

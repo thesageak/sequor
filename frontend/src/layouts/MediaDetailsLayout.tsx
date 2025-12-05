@@ -3,16 +3,20 @@ import axios from 'axios';
 import { useParams } from 'react-router-dom';
 import type { MangaResult } from '../pages/search/SearchTypes';
 import ContentList from '../components/ContentList.tsx'
+import Modal from '../components/Modal.tsx';
+import Dropdown from '../components/Dropdown.tsx';
 
 // Chainsaw Man Manga ID: 116778
 // JoJo Part 7: 1706
 // Frieren: 126287
 
 export default function MediaDetailsLayout() {
+    const [isOpen, setIsOpen] = useState(false);
     const { id } = useParams();
     console.log('ID param:', id);
     const [results, setResults] = useState<MangaResult>();
-
+    const [status, setStatus] = useState("None");
+    const statuses = ["None", "Tracking", "Dropped", "Completed"];
 
     useEffect(() => {
         async function fetchResults() {
@@ -27,6 +31,19 @@ export default function MediaDetailsLayout() {
         }
         fetchResults();
     }, [id]);
+
+    useEffect(() => {
+        if (!results) return;
+
+        fetch(`http://localhost:3000/api/tracking/${results.id}`)
+            .then(res => res.json())
+            .then(data => setStatus(data.status))
+            .catch(err => {
+                console.error('Failed to fetch status:', err);
+                setStatus('None');
+            });
+    }, [results]);
+
 
     return (
         <div className="min-h-screen">
@@ -59,8 +76,14 @@ export default function MediaDetailsLayout() {
                             ))}
                         </h2>
                         <div className="absolute translate-y-74">
-                            <button className="flex justify-center items-center text-[1.3rem] bg-seqGray w-45 h-1 p-6 rounded-lg">
-                                Track
+                            <button
+                                className="flex justify-center items-center text-[1.3rem] bg-seqGray w-45 h-1 p-6 rounded-lg"
+                                onClick={e => {
+                                    e.stopPropagation();
+                                    setIsOpen(v => !v)
+                                }}
+                            >
+                                {status}
                             </button>
                         </div>
                     </div>
@@ -80,6 +103,54 @@ export default function MediaDetailsLayout() {
                     }
                 </div>
             </div>
+            <Modal isOpen={isOpen} onClose={() => setIsOpen(false)}>
+                <div className="flex gap-10">
+                    <img
+                        src={results?.image_url}
+                    />
+                    <div className="flex-col">
+                        <h1 className="text-[1.8rem] font-bold">
+                            {results?.title || results?.title_english || results?.title_japanese}
+                        </h1>
+                        <div>
+                            <h2 className=" text-[1.5rem] font-bold mt-3">
+                                Status
+                            </h2>
+                            <Dropdown
+                                listings={statuses}
+                                selected={status}
+                                onSelect={(newStatus) => setStatus(newStatus)}
+                            />
+                        </div>
+                    </div>
+                </div>
+                <div className="flex justify-end gap-2">
+                    <button
+                        className="flex w-40 h-12 justify-center items-center text-[1.5rem] bg-seqGray rounded-lg"
+                        onClick={() => setIsOpen(false)}
+                    >
+                        Cancel
+                    </button>
+                    <button
+                        className="flex w-40 h-12 justify-center items-center text-[1.5rem] bg-seqBlue rounded-lg"
+                        onClick={async () => {
+                            await fetch(`/api/tracking/${results?.id}`, {
+                                method: 'POST',
+                                headers: { 'Content-Type': 'application/json' },
+                                body: JSON.stringify({ status }),
+                            });
+
+                            const res = await fetch(`/api/tracking/user/64a1f2c9b3e9c4a1f2345678`);
+                            const data = await res.json();
+                            console.log('Tracked manga after update:', data);
+
+                            setIsOpen(false);
+                        }}
+                    >
+                        Update
+                    </button>
+                </div>
+            </Modal>
         </div>
     )
 }

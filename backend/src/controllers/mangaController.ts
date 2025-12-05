@@ -1,5 +1,6 @@
 import {Request, Response} from 'express';
 import * as mangaService from '../services/mangaService';
+import Manga from '../models/Manga'
 
 export const getMangaById = async (req: Request, res: Response) => {
     try {

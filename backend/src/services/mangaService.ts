@@ -1,14 +1,15 @@
 import axios from 'axios';
+import MangaModel from '../models/Manga'
 
 const JIKAN_API_BASE_URL = 'https://api.jikan.moe/v4';
 
 export interface Manga {
     id: number;
-    titles: string;
+    title: string;
     title_english?: string;
     title_japanese?: string;
     chapters: number;
-    image_url: string;
+    image_url?: string;
     synopsis: string;
     genres?: string[];
 }
@@ -20,7 +21,7 @@ export const parseMangaData = (data: any): Manga => {
     ]
     return {
         id: data.mal_id,
-        titles: data.title,
+        title: data.title,
         title_english: data.title_english || null,
         title_japanese: data.title_japanese || null,
         chapters: data.chapters,
@@ -31,6 +32,11 @@ export const parseMangaData = (data: any): Manga => {
 }
 
 export const fetchMangaDetails = async (mal_id: number): Promise<Manga> => {
+    let mangaDocument = await MangaModel.findOne({ id: mal_id });
+    if (mangaDocument) {
+        return mangaDocument.toObject();
+    }
+
     try {
         const response = await axios.get(`${JIKAN_API_BASE_URL}/manga/${mal_id}`);
         return parseMangaData(response.data.data);
@@ -62,4 +68,5 @@ export const searchMangaByTitle = async (title: string): Promise<Manga[]> => {
         return [];
     }
 }
+
 
